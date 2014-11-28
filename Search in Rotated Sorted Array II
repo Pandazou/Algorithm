@@ -1,0 +1,47 @@
+Search in Rotated Sorted Array II
+__________________________________________________________________________________________________________________________
+
+the link to the problem:https://oj.leetcode.com/problems/search-in-rotated-sorted-array-ii/
+
+---------------------------------------------------------------------------------------------------------------------------
+The discription of the problem:
+Follow up for "Search in Rotated Sorted Array":
+
+What if duplicates are allowed?
+
+Would this affect the run-time complexity? How and why?
+
+Write a function to determine if a given target is in the array.
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+The answer to the question:
+bool search(int A[], int n, int target) {
+	int l = 0, r = n-1;
+	while(l <= r){
+		int m = l + ((r - l) >> 1);
+		if(A[m] == target)
+			return true;
+		if(A[l] < A[m]){ //if the left side if ordered
+			if(A[l] <= target && target < A[m]){
+				r = m - 1;
+			}
+			else{
+				l = m + 1;
+			}
+		}
+		else if(A[m] < A[r]){ // if the right side if ordered
+			if(A[m] < target && target <= A[r])
+				l = m + 1;
+			else
+				r = m - 1;
+		}
+		else if (A[l] == A[m]){//if the left number equals to mid number and A[m] is not the target, so remove A[l] is doesn't matter to the result
+			l++;
+		}
+		else if(A[r] == A[m]) // the same reason like above
+			r--;
+	}
+
+	return false;
+}
